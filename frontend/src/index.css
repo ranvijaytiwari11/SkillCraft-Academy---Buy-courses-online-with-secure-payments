@@ -1,0 +1,12 @@
+
+@import "tailwindcss";
+
+.slick-prev:before,
+.slick-next:before {
+  color: white;
+  font-size: 30px;
+}
+
+.slick-slide {
+  padding: 10px;
+}
