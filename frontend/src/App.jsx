@@ -8,6 +8,7 @@ import { BACKEND_URL } from "./frontend-config/api";
 import Home from "./components/User/home";
 import Login from "./components/User/login";
 import SignUp from "./components/User/signup";
+import ChatbotWidget from "./components/User/ChatbotWidget";
 
 import Courses from "./components/User/courses";
 import CourseDetail from "./components/User/CourseDetail";
@@ -96,6 +97,7 @@ function App() {
         </Route>
       </Routes>
 
+      <ChatbotWidget />
       <Toaster />
     </>
   );
