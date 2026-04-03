@@ -1,21 +1,20 @@
- import React, { useState, useEffect } from 'react';
-import { Link, useNavigate,useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import logo from "../../assets/logo.png";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { BACKEND_URL } from '../../frontend-config/api';
+import { motion } from 'framer-motion';
 
-
-function login() {
+function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-    const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Clear fields on component mount
   useEffect(() => {
     setEmail("");
     setPassword("");
@@ -29,106 +28,131 @@ function login() {
         password
       }, {
         withCredentials: true,
-        headers: {
-          "Content-Type": "application/json"
-        }
+        headers: { "Content-Type": "application/json" }
       });
 
       toast.success(response.data.message);
       localStorage.setItem("user", JSON.stringify(response.data));
-       const redirectTo = location.state?.from || "/";
-    navigate(redirectTo, { replace: true });
+      const redirectTo = location.state?.from || "/";
+      navigate(redirectTo, { replace: true });
     } catch (error) {
       const errMsg = error.response?.data?.errors || "Login failed!";
       setErrorMessage(errMsg);
     }
   };
 
- return (
-  <div className="bg-gradient-to-r from-black to-blue-950 min-h-screen">
-    <div className="container mx-auto flex flex-col items-center justify-center text-white px-4">
-      {/* Header */}
-      <header className="w-full flex flex-wrap items-center justify-between p-4 absolute top-0 left-0 z-50">
-        <div className="flex items-center space-x-2 mb-2 sm:mb-0">
-          <img src={logo} alt="Logo" className="w-10 h-10 rounded-full" />
-          <Link to="/" className="text-xl font-bold text-orange-500">SkillCraft</Link>
-        </div>
+  return (
+    <div className="min-h-screen text-white font-inter relative overflow-hidden flex items-center justify-center">
+      
+      {/* Background Orbs */}
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-orange-600/30 blur-[130px]" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-blue-600/30 blur-[130px]" />
+      </div>
 
-        <div className="flex items-center space-x-2 sm:space-x-4">
-          <Link to="/signup" className="border border-gray-500 px-3 py-1 rounded text-sm sm:text-md">Signup</Link>
-          <Link to="/courses" className="bg-orange-500 px-3 py-1 rounded text-sm sm:text-md">Join now</Link>
+      {/* Header */}
+      <header className="absolute top-4 left-0 right-0 w-[95%] max-w-7xl mx-auto glass-header rounded-full p-4 flex justify-between items-center z-50">
+        <Link to="/" className="flex items-center space-x-3 group">
+          <div className="bg-white/10 p-1 rounded-full border border-white/20 group-hover:border-orange-500/50 transition">
+             <img src={logo} alt="Logo" className="w-8 h-8 rounded-full" />
+          </div>
+          <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-orange-400 to-orange-600">SkillCraft</span>
+        </Link>
+
+        <div className="flex items-center gap-3">
+          <Link to="/signup" className="text-white hover:text-orange-400 text-sm font-medium transition">Signup</Link>
+          <Link to="/courses" className="bg-gradient-to-r from-orange-500 to-orange-600 px-4 py-1.5 rounded-full text-sm font-medium shadow-[0_0_15px_rgba(249,115,22,0.4)]">Join Now</Link>
         </div>
       </header>
        
-        <Link
+      <Link
         to="/"
-        className="absolute top-24 sm:top-28 left-4 sm:left-8 text-white bg-gray-800 hover:bg-blue-700 border border-gray-600 px-4 py-2 rounded-lg text-sm font-medium shadow-lg transition-all duration-300 z-40"
+        className="absolute top-28 left-4 text-white bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 px-4 py-2 rounded-full text-sm font-medium transition-all z-40"
       >
-        ⬅ Back to Home
+        ⬅ Back
       </Link>
       
-      {/* Login Form */}
-      <div className="bg-gray-900 p-6 sm:p-8 rounded-lg shadow-lg w-full max-w-md mt-28 sm:mt-32">
-        <h2 className="text-2xl font-bold mb-4 text-center">
-          Welcome to <span className="text-orange-500">SkillCraft</span>
-        </h2>
-        <p className="text-center text-gray-400 mb-6">Log in to access paid content</p>
+      {/* Login Form Container */}
+      <motion.div 
+        className="glass-panel p-8 sm:p-10 rounded-3xl w-full max-w-[420px] mx-4 relative z-10"
+        initial={{ opacity: 0, y: 40, scale: 0.95 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+      >
+        <div className="text-center mb-8">
+          <h2 className="text-3xl font-bold mb-2">Welcome Back</h2>
+          <p className="text-gray-400 text-sm">Log in to <span className="text-orange-400 font-semibold">SkillCraft</span></p>
+        </div>
 
-        <form onSubmit={handleSubmit} autoComplete="off">
-          <div className="mb-4">
-            <label htmlFor="email" className="block text-gray-400 mb-1">Email</label>
+        <form onSubmit={handleSubmit} autoComplete="off" className="space-y-5">
+          <div className="relative">
             <input
               type="email"
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="name@email.com"
               required
-              className="w-full p-3 rounded-md bg-gray-800 border border-gray-700 focus:ring-2 focus:ring-blue-500"
+              className="peer w-full px-4 pt-5 pb-2 rounded-xl bg-black/40 border border-white/10 focus:border-orange-500 focus:outline-none transition text-white placeholder-transparent"
+              placeholder="Email"
             />
+            <label htmlFor="email" className="absolute left-4 top-1.5 text-xs text-gray-400 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-3.5 peer-focus:top-1.5 peer-focus:text-xs peer-focus:text-orange-400 transition-all">
+              Email Address
+            </label>
           </div>
 
-          <div className="mb-4 relative">
-            <label htmlFor="password" className="block text-gray-400 mb-1">Password</label>
+          <div className="relative">
             <input
               type={showPassword ? "text" : "password"}
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="********"
               required
-              className="w-full p-3 pr-12 rounded-md bg-gray-800 border border-gray-700 focus:ring-2 focus:ring-blue-500"
+              className="peer w-full px-4 pt-5 pb-2 pr-12 rounded-xl bg-black/40 border border-white/10 focus:border-orange-500 focus:outline-none transition text-white placeholder-transparent"
+              placeholder="Password"
             />
-            <span
+            <label htmlFor="password" className="absolute left-4 top-1.5 text-xs text-gray-400 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-3.5 peer-focus:top-1.5 peer-focus:text-xs peer-focus:text-orange-400 transition-all">
+              Password
+            </label>
+             <button
+              type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute top-[45px] right-4 text-gray-400 hover:text-orange-500 text-lg cursor-pointer transition duration-200"
+              className="absolute right-4 top-4 text-gray-400 hover:text-orange-500 focus:outline-none"
             >
               {showPassword ? <FaEyeSlash /> : <FaEye />}
-            </span>
+            </button>
           </div>
 
           {errorMessage && (
-            <p className="mb-4 text-red-500 text-center">{errorMessage}</p>
+            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-red-400 text-sm text-center bg-red-500/10 border border-red-500/30 p-2 rounded-lg">
+              {errorMessage}
+            </motion.p>
           )}
 
-          <button type="submit" className="mb-2 w-full bg-orange-500 hover:bg-blue-600 text-white py-3 rounded-md transition">
-            Login
-          </button>
+          <div className="flex justify-end">
+            <Link to="/forgot-password" className="text-xs text-gray-400 hover:text-orange-400 transition">
+              Forgot Password?
+            </Link>
+          </div>
+
+          <motion.button 
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            type="submit" 
+            className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:shadow-[0_0_20px_rgba(249,115,22,0.4)] text-white font-semibold py-3.5 rounded-xl transition-all"
+          >
+            Sign In
+          </motion.button>
         </form>
 
-        <Link to="/forgot-password" className="text-sm text-red-600 hover:underline block text-right mt-2">
-          Forgot Password?
-        </Link>
-
-        {/* Suggest Signup */}
-        <p className="mt-6 text-center text-gray-400">
-          Don’t have an account?{" "}
-          <Link to="/signup" className="text-orange-400 hover:underline">Sign up here</Link>
+        <p className="mt-8 text-center text-sm text-gray-400">
+          First time here?{" "}
+          <Link to="/signup" className="text-orange-400 hover:text-orange-300 font-semibold transition">
+            Create an account
+          </Link>
         </p>
-      </div>
+      </motion.div>
     </div>
-  </div>
-);
+  );
 }
 
-export default login;
+export default Login;
