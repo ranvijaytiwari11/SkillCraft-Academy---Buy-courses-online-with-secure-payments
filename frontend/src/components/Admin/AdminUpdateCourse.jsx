@@ -13,6 +13,7 @@ function AdminUpdateCourse() {
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [image, setImage] = useState(null);
+  const [imageUrl, setImageUrl] = useState("");
   const [preview, setPreview] = useState(null);
 
   const token = JSON.parse(localStorage.getItem("admin"))?.token;
@@ -40,6 +41,7 @@ function AdminUpdateCourse() {
     formData.append("description", description);
     formData.append("price", price);
     if (image) formData.append("image", image);
+    if (imageUrl) formData.append("imageUrl", imageUrl);
 
     try {
       await axios.put(`${BACKEND_URL}/course/update/${courseId}`, formData, {
@@ -108,7 +110,18 @@ function AdminUpdateCourse() {
         </div>
 
         <div>
-          <label className="block font-medium mb-1">Upload New Image</label>
+          <label className="block font-medium mb-1 pl-1 text-gray-700 text-sm">OR Update with Direct Image URL</label>
+          <input
+            type="text"
+            className="w-full border border-gray-300 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            placeholder="https://example.com/image.jpg"
+            value={imageUrl}
+            onChange={(e) => setImageUrl(e.target.value)}
+          />
+        </div>
+
+        <div>
+          <label className="block font-medium mb-1">Upload New Image File</label>
           <input
             type="file"
             accept="image/*"

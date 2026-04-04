@@ -27,7 +27,7 @@ const courseSchema = new mongoose.Schema({
   description: { type: String, required: true, trim: true },
   price: { type: Number, required: true },
   image: {
-    public_id: { type: String, required: true },
+    public_id: { type: String, required: false },
     url: { type: String, required: true },
   },
   creatorId: {

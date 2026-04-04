@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from "react";
 import logo from "../../assets/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import {
-  FaFacebook,
   FaInstagram,
   FaTwitter,
   FaGithub,
@@ -425,7 +424,6 @@ function Home() {
               Empowering learners worldwide with state-of-the-art educational content tailored for success in the dynamic tech industry.
             </p>
             <div className="flex gap-4">
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="bg-white/5 p-3 rounded-full hover:bg-white/10 hover:text-blue-500 transition"><FaFacebook className="text-xl" /></a>
               <a href="https://instagram.com/ranvijayt11" target="_blank" rel="noopener noreferrer" className="bg-white/5 p-3 rounded-full hover:bg-white/10 hover:text-pink-500 transition"><FaInstagram className="text-xl" /></a>
               <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="bg-white/5 p-3 rounded-full hover:bg-white/10 hover:text-blue-400 transition"><FaTwitter className="text-xl" /></a>
               <a href="https://github.com/ranvijaytiwari11" target="_blank" rel="noopener noreferrer" className="bg-white/5 p-3 rounded-full hover:bg-white/10 hover:text-white transition"><FaGithub className="text-xl" /></a>

@@ -11,19 +11,21 @@ function AdminCreateCourse() {
   const [price, setPrice] = useState("");
   const [image, setImage] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
+  const [imageUrl, setImageUrl] = useState("");
 
   const navigate = useNavigate();
   const token = JSON.parse(localStorage.getItem("admin"))?.token;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!image) return toast.error("Please upload an image");
+    if (!image && !imageUrl) return toast.error("Please upload an image or provide an Image URL");
 
     const formData = new FormData();
     formData.append("title", title);
     formData.append("description", description);
     formData.append("price", price);
-    formData.append("image", image);
+    if (image) formData.append("image", image);
+    if (imageUrl) formData.append("imageUrl", imageUrl);
 
     try {
       const res = await axios.post(
@@ -44,6 +46,7 @@ function AdminCreateCourse() {
       setPrice("");
       setImage(null);
       setPreviewUrl(null);
+      setImageUrl("");
 
       navigate("/admin/courses");
     } catch (err) {
@@ -105,7 +108,18 @@ function AdminCreateCourse() {
         </div>
 
         <div>
-          <label className="block font-medium mb-1">Course Thumbnail</label>
+          <label className="block font-medium mb-1 pl-1 text-gray-700 text-sm">OR Direct Image URL (Permanent)</label>
+          <input
+            type="text"
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            placeholder="https://example.com/image.jpg"
+            value={imageUrl}
+            onChange={(e) => setImageUrl(e.target.value)}
+          />
+        </div>
+
+        <div>
+          <label className="block font-medium mb-1">Course Thumbnail (Upload file)</label>
           <input
             type="file"
             accept="image/*"
@@ -114,9 +128,8 @@ function AdminCreateCourse() {
               setPreviewUrl(URL.createObjectURL(e.target.files[0]));
             }}
             className="w-full"
-            required
           />
-          {previewUrl && (
+          {previewUrl && !imageUrl && (
             <img
               src={previewUrl}
               alt="Preview"
