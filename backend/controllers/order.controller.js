@@ -2,18 +2,22 @@ import crypto from "crypto";
 import Order from "../models/order.model.js";
 import { Purchase } from "../models/purchase.model.js";
 
+// -> Validates incoming Razorpay cryptographic signatures
 export const verifyPayment = async (req, res) => {
   try {
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
 
+    // -> Generating HMAC SHA-256 local signature for validation
     const hmac = crypto.createHmac("sha256", process.env.RAZORPAY_KEY_SECRET);
     hmac.update(`${razorpay_order_id}|${razorpay_payment_id}`);
     const digest = hmac.digest("hex");
 
+    // -> Rejecting hijacked or mismatched payload signatures
     if (digest !== razorpay_signature) {
       return res.status(400).json({ success: false, message: "Payment verification failed" });
     }
 
+    // -> Committing successful transaction status to the database
     const order = await Order.findOneAndUpdate(
       { razorpayOrderId: razorpay_order_id },
       {
@@ -28,6 +32,7 @@ export const verifyPayment = async (req, res) => {
       return res.status(404).json({ success: false, message: "Order not found" });
     }
 
+    // -> Generating a confirmed purchase record for course access
     await Purchase.create({
       userId: order.userId,
       courseId: order.courseId,

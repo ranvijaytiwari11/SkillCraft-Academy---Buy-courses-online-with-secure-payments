@@ -8,18 +8,20 @@ import { verifyPayment } from "../controllers/order.controller.js";
 const router = express.Router();
 
 // ✅ CREATE ORDER
+// Initializes a new Razorpay payment session
 router.post("/create", userMiddleware, async (req, res) => {
   const { courseId, amount } = req.body;
   const userId = req.userId;
 
   try {
+    // Configures the order amount (Razorpay requires smallest currency unit - paise)
     const razorpayOrder = await razorpay.orders.create({
-      amount: amount * 100, // in paise
+      amount: amount * 100, 
       currency: "INR",
       receipt: `receipt_${Date.now()}`,
     });
 
-    // Save order in DB
+    // Commits the pending order details securely to the database
     await Order.create({
       courseId,
       userId,
@@ -28,6 +30,7 @@ router.post("/create", userMiddleware, async (req, res) => {
       status: "created",
     });
 
+    // Dispatches the secure keys and Order ID to the client interface
     res.status(200).json({
       orderId: razorpayOrder.id,
       amount: razorpayOrder.amount,
@@ -41,6 +44,7 @@ router.post("/create", userMiddleware, async (req, res) => {
 });
 
 // ✅ VERIFY PAYMENT
+// Verifies the incoming cryptographic signature to prevent spoofing
 router.post("/verify", userMiddleware, verifyPayment);
 
 export default router;
