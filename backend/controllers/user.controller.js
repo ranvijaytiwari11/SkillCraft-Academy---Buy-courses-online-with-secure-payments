@@ -17,7 +17,7 @@ const userSchema = z.object({
   password: z.string().min(6, { message: "Password must be at least 6 characters long" }),
 });
 
-// ✅ Signup Controller
+// -> Orchestrates user registration and cryptographic password hashing
 export const signup = async (req, res) => {
   try {
     const validatedData = userSchema.safeParse(req.body);
@@ -51,7 +51,7 @@ export const signup = async (req, res) => {
   }
 };
 
-// ✅ Login Controller
+// -> Manages user authentication and stateless token dispatch
 export const login = async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -86,7 +86,7 @@ export const login = async (req, res) => {
   }
 };
 
-// ✅ Logout Controller
+// -> Invalidates active user session and clears authentication cookies
 export const logout = (req, res) => {
   try {
     res.clearCookie("jwt");
@@ -97,7 +97,7 @@ export const logout = (req, res) => {
   }
 };
 
-// ✅ Get Purchased Courses
+// -> Retrieves master record of all verified course purchases for the active user
 export const purchases = async (req, res) => {
   const userId = req.userId;
   try {
@@ -178,7 +178,7 @@ export const updateUserProfile = async (req, res) => {
     return res.status(500).json({ errors: "Profile update failed" });
   }
 };
-// ✅ Delete Account
+// -> Eradicates user profile and cascades session invalidation
 export const deleteAccount = async (req, res) => {
   try {
     const userId = req.userId;
@@ -191,7 +191,7 @@ export const deleteAccount = async (req, res) => {
     return res.status(500).json({ errors: "Server error during account deletion" });
   }
 };
-     // forget password
+// -> Generates and dispatches secure OTP for password reset operations
 
   export const forgotPassWord = async (req, res) => {
   const { email } = req.body;
@@ -201,7 +201,7 @@ export const deleteAccount = async (req, res) => {
     if (!user) return res.status(404).json({ errors: "User not found" });
 
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    user.resetOTP = otp; // ✅ store in proper field
+    user.resetOTP = otp; // -> Persisting temporary verification challenge into state
     user.resetOTPExpires = Date.now() + 10 * 60 * 1000; // 10 minutes
     await user.save();
 
@@ -217,7 +217,7 @@ export const deleteAccount = async (req, res) => {
     res.status(500).json({ errors: "Server error" });
   }
 };
-// reset-password
+// -> Verifies temporary challenge tokens for secure identity recovery
 
 export const verifyOtp = async (req, res) => {
   const { email, otp } = req.body;

@@ -14,7 +14,7 @@ const adminSchema = z.object({
   password: z.string().min(6, { message: "Password must be at least 6 characters long" }),
 });
 
-// Admin Signup
+// -> Orchestrates admin registration and cryptographic password hashing
 export const signup = async (req, res) => {
   try {
     const validatedData = adminSchema.safeParse(req.body);
@@ -49,7 +49,7 @@ export const signup = async (req, res) => {
   }
 };
 
-// Admin Login
+// -> Manages elevated authentication and stateless token dispatch
 export const login = async (req, res) => {
   const { email, password } = req.body;
 
@@ -85,7 +85,7 @@ export const login = async (req, res) => {
   }
 };
 
-// Admin Logout
+// -> Invalidates active admin session and clears authentication cookies
 export const logout = (req, res) => {
   try {
     res.clearCookie("jwt");

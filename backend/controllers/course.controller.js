@@ -17,47 +17,53 @@ const razorpay = new Razorpay({
 });
 
 
-// Create course
+// -> Instantiates new course entity and syncs assets directly to Cloudinary CDN
 export const createCourse = async (req, res) => {
   const adminId = req.adminId;
-  const { title, description, price } = req.body;
+  const { title, description, price, imageUrl } = req.body;
 
   try {
     if (!title || !description || !price) {
       return res.status(400).json({ errors: "All fields are required" });
     }
 
-    if (!req.file) {
-      return res.status(400).json({ errors: "Image is required" });
+    let finalImageUrl = "";
+    let finalPublicId = "";
+
+    if (imageUrl) {
+      finalImageUrl = imageUrl;
+      finalPublicId = "url";
+    } else if (req.file) {
+      if (!req.file.mimetype.startsWith("image/")) {
+        return res.status(400).json({ errors: "Only image files allowed" });
+      }
+
+      const streamUpload = () =>
+        new Promise((resolve, reject) => {
+          const stream = cloudinary.uploader.upload_stream(
+            { folder: "courses" },
+            (error, result) => {
+              if (result) resolve(result);
+              else reject(error);
+            }
+          );
+          streamifier.createReadStream(req.file.buffer).pipe(stream);
+        });
+
+      const uploadedImage = await streamUpload();
+      finalPublicId = uploadedImage.public_id;
+      finalImageUrl = uploadedImage.secure_url;
+    } else {
+      return res.status(400).json({ errors: "Image file or Image URL is required" });
     }
-
-    const allowedFormat = ["image/png", "image/jpeg"];
-    if (!allowedFormat.includes(req.file.mimetype)) {
-      return res.status(400).json({ errors: "Only PNG/JPG allowed" });
-    }
-
-    const streamUpload = () =>
-      new Promise((resolve, reject) => {
-        const stream = cloudinary.uploader.upload_stream(
-          { folder: "courses" },
-          (error, result) => {
-            if (result) resolve(result);
-            else reject(error);
-          }
-        );
-
-        streamifier.createReadStream(req.file.buffer).pipe(stream);
-      });
-
-    const uploadedImage = await streamUpload();
 
     const course = await Course.create({
       title,
       description,
       price,
       image: {
-        public_id: uploadedImage.public_id,
-        url: uploadedImage.secure_url,
+        public_id: finalPublicId,
+        url: finalImageUrl,
       },
       creatorId: adminId,
     });
@@ -69,11 +75,11 @@ export const createCourse = async (req, res) => {
   }
 };
 
-// Update course
+// -> Modifies course metadata and regenerates Cloudinary references if URL updates
 export const updateCourse = async (req, res) => {
   const adminId = req.adminId;
   const { courseId } = req.params;
-  const { title, description, price } = req.body;
+  const { title, description, price, imageUrl } = req.body;
 
   try {
     const course = await Course.findOne({ _id: courseId, creatorId: adminId });
@@ -81,8 +87,17 @@ export const updateCourse = async (req, res) => {
       return res.status(404).json({ errors: "Unauthorized to update course" });
     }
 
-    if (req.file) {
-      if (course.image?.public_id) {
+    if (imageUrl) {
+      // Direct URL provided - delete old cloudinary image if any, then use URL
+      if (course.image?.public_id && course.image.public_id !== "url") {
+        await cloudinary.uploader.destroy(course.image.public_id);
+      }
+      course.image = {
+        public_id: "url",
+        url: imageUrl,
+      };
+    } else if (req.file) {
+      if (course.image?.public_id && course.image.public_id !== "url") {
         await cloudinary.uploader.destroy(course.image.public_id);
       }
 
@@ -95,7 +110,6 @@ export const updateCourse = async (req, res) => {
               else reject(error);
             }
           );
-
           streamifier.createReadStream(req.file.buffer).pipe(stream);
         });
 
@@ -120,7 +134,7 @@ export const updateCourse = async (req, res) => {
   }
 };
 
-// Get all courses
+// -> Retrieves master list of all available global courses
 export const getCourses = async (req, res) => {
   try {
     const courses = await Course.find({});
@@ -131,10 +145,7 @@ export const getCourses = async (req, res) => {
   }
 };
 
-// Get single course
-
-
-// Buy course (create Razorpay order)
+// -> Obsolete Razorpay buy course route (Currently handled via Global Order Controller)
 export const buyCourses = async (req, res) => {
   console.log("🎯 BUY route hit: real Razorpay order");
 
@@ -222,7 +233,7 @@ export const addReview = async (req, res) => {
   const { rating, comment } = req.body;
 
   try {
-    // ✅ Check if user purchased the course
+    // -> Verifying purchase lineage before accepting ratings
     const hasPurchased = await Purchase.findOne({ userId, courseId });
     if (!hasPurchased) {
       return res.status(403).json({ errors: "You must purchase the course to review it" });
@@ -231,19 +242,19 @@ export const addReview = async (req, res) => {
     const course = await Course.findById(courseId);
     if (!course) return res.status(404).json({ errors: "Course not found" });
 
-    // ✅ Check if user already reviewed
+    // -> Evaluating for existing review to preempt duplicates
     const existingReview = course.reviews.find((r) => r.user.toString() === userId);
 
     if (existingReview) {
-      // ✅ Update existing review
+      // -> Performing an overwrite for existing review state
       existingReview.rating = rating;
       existingReview.comment = comment;
     } else {
-      // ✅ Add new review
+      // -> Injecting new review node into course instance
       course.reviews.push({ user: userId, rating, comment });
     }
 
-    // ✅ Update average rating
+    // -> Computing mathematical course rating average in real-time
     const totalRating = course.reviews.reduce((sum, r) => sum + r.rating, 0);
     course.averageRating = totalRating / course.reviews.length;
 
