@@ -1,4 +1,4 @@
- import axios from "axios";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -67,6 +67,7 @@ function Buy() {
       return;
     }
 
+    // -> Configuring Razorpay client interface options
     const options = {
       key: orderDetails.key,
       amount: orderDetails.amount,
@@ -74,6 +75,7 @@ function Buy() {
       name: "Course Purchase",
       description: "Payment for course",
       order_id: orderDetails.orderId,
+      // -> Captures the payment response signature and forwards to backend for structural verification
       handler: async function (response) {
         try {
           await axios.post(
@@ -84,6 +86,7 @@ function Buy() {
               razorpay_signature: response.razorpay_signature,
             },
             {
+              // -> Attaching secure Bearer token to authorize the post-payment request
               headers: {
                 Authorization: `Bearer ${token}`,
               },
@@ -91,7 +94,7 @@ function Buy() {
             }
           );
           toast.success("Payment Successful");
-           toast.success("Course purchase Successfully");
+          toast.success("Course purchase Successfully");
           navigate("/purchases");
         } catch (err) {
           toast.error("Payment verification failed");
@@ -155,41 +158,41 @@ function Buy() {
     return <div className="text-center mt-40 text-white">Loading...</div>;
   }
 
- return (
-  <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-950 to-black flex items-center justify-center px-4 py-16">
-    <div className="flex flex-col sm:flex-row w-full max-w-5xl bg-opacity-20 backdrop-blur-lg bg-gray-800/50 rounded-3xl shadow-2xl border border-blue-900">
-      
-      {/* Left side: Order details */}
-      <div className="w-full md:w-1/2 px-9 py-10 text-white">
-        <h1 className="text-2xl font-bold underline mb-6">Order Details</h1>
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-950 to-black flex items-center justify-center px-4 py-16">
+      <div className="flex flex-col sm:flex-row w-full max-w-5xl bg-opacity-20 backdrop-blur-lg bg-gray-800/50 rounded-3xl shadow-2xl border border-blue-900">
 
-        <div className="mb-6">
-          <h2 className="text-gray-300 text-sm">Total Price</h2>
-          <p className="text-red-400 font-bold text-2xl">₹{course.price}</p>
+        {/* Left side: Order details */}
+        <div className="w-full md:w-1/2 px-9 py-10 text-white">
+          <h1 className="text-2xl font-bold underline mb-6">Order Details</h1>
+
+          <div className="mb-6">
+            <h2 className="text-gray-300 text-sm">Total Price</h2>
+            <p className="text-red-400 font-bold text-2xl">₹{course.price}</p>
+          </div>
+
+          <div className="mb-6">
+            <h2 className="text-gray-300 text-sm">Course Name</h2>
+            <p className="text-red-400 font-bold text-lg">{course.title}</p>
+          </div>
         </div>
 
-        <div className="mb-6">
-          <h2 className="text-gray-300 text-sm">Course Name</h2>
-          <p className="text-red-400 font-bold text-lg">{course.title}</p>
-        </div>
-      </div>
-
-      {/* Right side: Payment box */}
-      <div className="w-full md:w-1/2 flex justify-center items-center px-6 py-10">
-        <div className="bg-white/90 backdrop-blur-md shadow-xl rounded-2xl p-8 w-full max-w-sm">
-          <h2 className="text-lg font-bold text-gray-800 mb-4">Process your Payment</h2>
-          <p className="text-sm text-gray-600 mb-6">Click below to complete your secure payment.</p>
-          <button
-            onClick={handlePayment}
-            className="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold text-md hover:bg-indigo-700 transition duration-300 cursor-pointer"
-          >
-            Pay ₹{course.price}
-          </button>
+        {/* Right side: Payment box */}
+        <div className="w-full md:w-1/2 flex justify-center items-center px-6 py-10">
+          <div className="bg-white/90 backdrop-blur-md shadow-xl rounded-2xl p-8 w-full max-w-sm">
+            <h2 className="text-lg font-bold text-gray-800 mb-4">Process your Payment</h2>
+            <p className="text-sm text-gray-600 mb-6">Click below to complete your secure payment.</p>
+            <button
+              onClick={handlePayment}
+              className="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold text-md hover:bg-indigo-700 transition duration-300 cursor-pointer"
+            >
+              Pay ₹{course.price}
+            </button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-);
+  );
 
 }
 
