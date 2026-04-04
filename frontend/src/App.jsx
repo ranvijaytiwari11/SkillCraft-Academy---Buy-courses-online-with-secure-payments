@@ -4,7 +4,7 @@ import axios from "axios";
 import { Toaster } from "react-hot-toast";
 import { BACKEND_URL } from "./frontend-config/api";
 
-// User Components
+// -> Public and authenticated user interfaces
 import Home from "./components/User/home";
 import Login from "./components/User/login";
 import SignUp from "./components/User/signup";
@@ -19,14 +19,14 @@ import ForgotPassword from "./components/User/forgotPassWord";
 import ResetPassword from "./components/User/ResetPassword";
 import VerifyOtp from "./components/User/verifyOtp";
 
-// Static Pages
+// -> Static informational and policy portals
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsAndConditions from "./pages/TermsAndConditions";
 import RefundPolicy from "./pages/RefundPolicy";
 import ShippingPolicy from "./pages/ShippingPolicy";
 import ContactUs from "./pages/ContactUs";
 
-// Admin Components
+// -> Elevated administration modules
 import AdminHome from "./components/Admin/AdminHome";
 import AdminProfile from "./components/Admin/AdminProfile";
 import AdminLogin from "./components/Admin/AdminLogin";
@@ -40,7 +40,7 @@ function App() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // 🛡️ Auto logout for admin if visiting user side
+  // -> Orchestrating automatic administration logout to prevent session overlaps
   useEffect(() => {
     const admin = JSON.parse(localStorage.getItem("admin"));
     const isAdminRoute = location.pathname.startsWith("/admin");
@@ -59,7 +59,7 @@ function App() {
   return (
     <>
       <Routes>
-        {/* ✅ Public User Routes */}
+        {/* -> Standard identity routing */}
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
@@ -67,7 +67,7 @@ function App() {
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/verify-otp" element={<VerifyOtp />} />
 
-        {/* 📄 Static Public Pages */}
+        {/* -> Institutional policy endpoints */}
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
         <Route path="/refund-policy" element={<RefundPolicy />} />
@@ -86,7 +86,7 @@ function App() {
         {/* 🔐 Admin Login */}
         <Route path="/admin/login" element={<AdminLogin />} />
 
-        {/* 🔐 Protected Admin Routes */}
+        {/* -> Elevated administration portals */}
         <Route path="/admin" element={<AdminPrivateRoute />}>
           <Route index element={<AdminHome />} />
           <Route path="profile" element={<AdminProfile />} />

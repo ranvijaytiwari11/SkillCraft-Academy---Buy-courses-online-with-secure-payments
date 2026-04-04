@@ -16,7 +16,7 @@ dotenv.config();
 const app = express();
 const DB_URI = process.env.MONGO_URI;
 
-// ✅ Middlewares
+// -> Mounting core application middlewares
 app.use(cookieParser());
 app.use(express.json());
 
@@ -43,7 +43,7 @@ app.get("/", (req, res) => {
 app.get("/ping", (req, res) => {
   res.json({ message: "pong" });
 });
-// ✅ Routes
+// -> Initializing operational route modules
 app.use("/api/v1/course", courseRoute);
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/admin", adminRoute);
@@ -51,11 +51,11 @@ app.use("/api/v1/order", orderRoute);
 app.use("/api/v1/purchase", purchaseRoute);
  
 
-// ✅ Start server only after DB connection
+// -> Establishing database connection prior to server bootstrap
 const startServer = async () => {
   try {
     await mongoose.connect(DB_URI);
-    console.log("✅ MongoDB connected");
+    console.log("-> MongoDB connectivity established");
 
     app.listen(config.PORT, () => {
       console.log(`Server running on http://localhost:${config.PORT}`);
