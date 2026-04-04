@@ -10,96 +10,115 @@ dotenv.config();
 const DB_URI = process.env.MONGO_URI;
 
 const coursesToSeed = [
+  // --- PEHLE WALE 6 COURSES ---
   {
-    title: "Mastering React: From Beginner to Pro",
-    description: "A comprehensive guide to React.js, focusing on hooks, context, and state management.",
-    price: 499,
-    image: {
-      public_id: "react_course_img",
-      url: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1024px-React-icon.svg.png",
-    },
+    title: "A2Z DSA Course - Beginner to Advanced",
+    description: "Master Data Structures and Algorithms from scratch with Striver. Perfect for FAANG interview preparation.",
+    price: 4999,
+    creator: "Striver (Take U Forward)",
+    image: { public_id: "demo_striver_1", url: "/course-images/striver.jpg" }
   },
   {
-    title: "Full Stack Web Development with MERN",
-    description: "Learn how to build powerful full stack applications using MongoDB, Express, React, and Node.js.",
-    price: 999,
-    image: {
-      public_id: "mern_course_img",
-      url: "https://upload.wikimedia.org/wikipedia/commons/d/d9/Node.js_logo.svg",
-    },
+    title: "Complete C++ with DSA",
+    description: "Learn C++ and Data Structures effortlessly with Raghav Garg. Ideal for college students.",
+    price: 3999,
+    creator: "Raghav Garg (PW Skills)",
+    image: { public_id: "demo_raghav_1", url: "/course-images/raghav.jpg" }
   },
   {
-    title: "Advanced JavaScript Concepts",
-    description: "Dive deep into closures, prototypes, async/await, and event loops.",
-    price: 299,
-    image: {
-      public_id: "js_course_img",
-      url: "https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png",
-    },
+    title: "Sigma Web Development Bootcamp",
+    description: "Become a Full Stack Web Developer. Learn HTML, CSS, JavaScript, React, and Node.js with Shradha Khapra.",
+    price: 5999,
+    creator: "Shradha Khapra (Apna College)",
+    image: { public_id: "demo_shradha_1", url: "/course-images/shradha.jpg" }
   },
   {
-    title: "Python for Data Science and Machine Learning",
-    description: "Complete guide to learning Python with Pandas, NumPy, and Scikit-Learn.",
-    price: 799,
-    image: {
-      public_id: "python_course_img",
-      url: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg",
-    },
+    title: "Supreme DSA Batch - Placement Ready",
+    description: "Clear top product-based company interviews with Love Babbar's Supreme DSA strategies.",
+    price: 4500,
+    creator: "Love Babbar (CodeHelp)",
+    image: { public_id: "demo_love_1", url: "/course-images/love.jpg" }
   },
   {
-    title: "Introduction to UI/UX Design",
-    description: "Master the fundamentals of UI/UX design using Figma and modern design principles.",
-    price: 399,
-    image: {
-      public_id: "uiux_course_img",
-      url: "https://upload.wikimedia.org/wikipedia/commons/3/33/Figma-logo.svg",
-    },
+    title: "100xDevs: Full Stack & Web3 Cohort",
+    description: "Go from absolute zero to earning as a MERN & Web3 Developer with Harkirat Singh.",
+    price: 6999,
+    creator: "Harkirat Singh",
+    image: { public_id: "demo_harkirat_1", url: "/course-images/harkirat.jpg" }
   },
   {
-    title: "AWS Cloud Practitioner Bootcamp",
-    description: "Prepare for your AWS Certified Cloud Practitioner exam with real-world scenarios.",
-    price: 599,
-    image: {
-      public_id: "aws_course_img",
-      url: "https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg",
-    },
+    title: "Chai aur React - Complete Series",
+    description: "Understand React.js deeply with real-world projects, taught in pure Hindi by Hitesh.",
+    price: 2999,
+    creator: "Hitesh Choudhary",
+    image: { public_id: "demo_hitesh_1", url: "/course-images/hitesh.jpg" }
+  },
+
+  // --- NAYE 5 COURSES ---
+  {
+    title: "100 Days of Code: Complete Python Developer",
+    description: "Master Python from pure basics to advanced applications, data science, and web scripting.",
+    price: 3499,
+    creator: "Harry (CodeWithHarry)",
+    image: { public_id: "demo_harry_1", url: "/course-images/harry.jpg" }
   },
   {
-    title: "Docker & Kubernetes for DevOps",
-    description: "Learn containerization and orchestration to streamline your CI/CD pipelines.",
-    price: 899,
-    image: {
-      public_id: "docker_course_img",
-      url: "https://upload.wikimedia.org/wikipedia/commons/4/4e/Docker_%28container_engine%29_logo.svg",
-    },
+    title: "Java Placement Course + DSA",
+    description: "The complete guide to Java programming and logic building for cracking campus placements.",
+    price: 3999,
+    creator: "Anuj Bhaiya",
+    image: { public_id: "demo_anuj_1", url: "/course-images/anuj.jpg" }
   },
   {
-    title: "Cybersecurity Bootcamp: Ethical Hacking",
-    description: "Learn penetration testing, network security, and practical ethical hacking techniques.",
-    price: 1099,
-    image: {
-      public_id: "cybersec_course_img",
-      url: "https://upload.wikimedia.org/wikipedia/commons/a/ad/Computer_security_icon.svg",
-    },
+    title: "Complete DevOps & Cloud Computing",
+    description: "Learn Linux, Docker, Kubernetes, AWS, and CI/CD pipelines from scratch. Become a DevOps Engineer.",
+    price: 7999,
+    creator: "Kunal Kushwaha",
+    image: { public_id: "demo_kunal_1", url: "/course-images/kunal.jpg" }
   },
   {
-    title: "Go Programming Language (Golang) Course",
-    description: "Build fast, reliable, and efficient software at scale with Go.",
-    price: 699,
-    image: {
-      public_id: "golang_course_img",
-      url: "https://upload.wikimedia.org/wikipedia/commons/0/05/Go_Logo_Blue.svg",
-    },
+    title: "Mastering Competitive Programming",
+    description: "Elevate your problem-solving skills to crack Codeforces, CodeChef, and FAANG interviews.",
+    price: 4999,
+    creator: "Nishant Chahar",
+    image: { public_id: "demo_nishant_1", url: "/course-images/nishant.jpg" }
   },
   {
-    title: "Mastering Next.js for Production",
-    description: "Take your React skills to the next level with server-side rendering, routing, and APIs in Next.js.",
-    price: 899,
-    image: {
-      public_id: "nextjs_course_img",
-      url: "https://upload.wikimedia.org/wikipedia/commons/8/8e/Nextjs-logo.svg",
-    },
+    title: "C Language & Logic Building",
+    description: "The most robust foundational computer science course starting entirely from scratch in Hindi.",
+    price: 2499,
+    creator: "Saurabh Shukla",
+    image: { public_id: "demo_saurabh_1", url: "/course-images/saurabh.jpg" }
   },
+  // --- NAYE 4 COURSES ---
+  {
+    title: "Namaste JavaScript - Advanced Concepts",
+    description: "Deep dive into JS Execution Context, Hoisting, and Closures to crack top product companies.",
+    price: 1999,
+    creator: "Akshay Saini",
+    image: { public_id: "demo_akshay", url: "/course-images/akshay.jpg" }
+  },
+  {
+    title: "Full Stack Next.js & Prisma Masterclass",
+    description: "Build production-level server-side rendered applications with the latest Next.js App Router.",
+    price: 3499,
+    creator: "Piyush Garg",
+    image: { public_id: "demo_piyush", url: "/course-images/piyush.jpg" }
+  },
+  {
+    title: "MERN Stack Complete Series logically",
+    description: "Step-by-step MERN stack tutorials with real-world mini projects in a fun, easy way.",
+    price: 2500,
+    creator: "Thapa Technical",
+    image: { public_id: "demo_thapa", url: "/course-images/thapa.jpg" }
+  },
+  {
+    title: "Java Programming & Spring Boot",
+    description: "Master Java basics to advanced framework integration with the world's most trusted faculty.",
+    price: 4999,
+    creator: "Navin Reddy (Telusko)",
+    image: { public_id: "demo_telusko", url: "/course-images/telusko.jpg" }
+  }
 ];
 
 const seedDatabase = async () => {
@@ -107,7 +126,6 @@ const seedDatabase = async () => {
     await mongoose.connect(DB_URI);
     console.log("✅ MongoDB connected for seeding");
 
-    // 1. Create or Find Admin
     let admin = await Admin.findOne({ email: "rt7999675@gmail.com" });
     if (!admin) {
       const hashedPassword = await bcrypt.hash("admin123", 10);
@@ -123,17 +141,17 @@ const seedDatabase = async () => {
       console.log("✅ Using existing Admin account:", admin.email);
     }
 
-    // 2. Clear existing dummy courses if any (Optional, but let's just insert new ones)
-    // await Course.deleteMany({});
-    
-    // 3. Seed Courses
+    // THIS IS THE CRITICAL FIX: Flush the old broken images out completely!
+    await Course.deleteMany({});
+    console.log("🧹 Flushed all old broken courses from database.");
+
     const newCourses = coursesToSeed.map((course) => ({
       ...course,
       creatorId: admin._id,
     }));
 
     await Course.insertMany(newCourses);
-    console.log("✅ 10 courses seeded successfully");
+    console.log("✅ 11 local-image courses seeded successfully!");
 
     process.exit(0);
   } catch (error) {
