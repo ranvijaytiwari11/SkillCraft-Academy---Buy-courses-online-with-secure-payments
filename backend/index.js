@@ -21,10 +21,11 @@ app.use(cookieParser());
 app.use(express.json());
 
 const allowedOrigins = [
-  "https://course-selling-app-sage.vercel.app", // your frontend
+  config.FRONTEND_URL, // From environment variables
+  "https://course-selling-app-sage.vercel.app", // your current frontend
   "http://localhost:5173", // local dev
   "http://localhost:5174",
-  "http://localhost:5175"
+  "http://localhost:5175",
 ];
 
 app.use(
@@ -52,18 +53,23 @@ app.use("/api/v1/purchase", purchaseRoute);
  
 
 // -> Establishing database connection prior to server bootstrap
-const startServer = async () => {
+const connectDB = async () => {
   try {
     await mongoose.connect(DB_URI);
     console.log("-> MongoDB connectivity established");
-
-    app.listen(config.PORT, () => {
-      console.log(`Server running on http://localhost:${config.PORT}`);
-    });
   } catch (error) {
     console.error("MongoDB connection failed:", error);
-    process.exit(1);
   }
 };
 
-startServer();
+connectDB();
+
+// Only listen locally if not deployed on Vercel
+if (process.env.NODE_ENV !== "production") {
+  app.listen(config.PORT, () => {
+    console.log(`Server running on http://localhost:${config.PORT}`);
+  });
+}
+
+// Export the Express API for Vercel
+export default app;
