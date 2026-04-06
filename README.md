@@ -1,19 +1,10 @@
 <div align="center">
   <h1>🚀 SkillCraft Academy</h1>
   <p><h3>Premium EdTech Platform with Cryptographically Secure Payments</h3></p>
-
-  [![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
-  [![Node.js](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
-  [![Express.js](https://img.shields.io/badge/Express.js-404D59?style=for-the-badge)](https://expressjs.com/)
-  [![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
-  [![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 </div>
-<br/>
-## [🌐 Live Demo 🚀](skill-craft-academy-buy-courses-onl-kappa.vercel.app](https://vercel.com/ranvijaytiwari11s-projects/skill-craft-academy-buy-courses-online-with-secure-payments-azl8)
-
-<br/>
 Welcome to **SkillCraft**, an enterprise-grade online course platform engineered with the MERN stack. Designed for maximum reliability and aesthetics, SkillCraft empowers users to seamlessly discover, purchase, and review curated upskilling courses while experiencing an immersive, glassmorphism-inspired interface.
 
+### 🔗 **Live Demo:** [View Live App](https://skill-craft-academy-buy-courses-onl-kappa.vercel.app)
 ---
 
 ## ✨ Enterprise Features
