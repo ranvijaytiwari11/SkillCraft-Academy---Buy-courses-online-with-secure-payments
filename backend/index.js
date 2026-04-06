@@ -52,19 +52,16 @@ app.use("/api/v1/order", orderRoute);
 app.use("/api/v1/purchase", purchaseRoute);
 
 
-// -> Establishing database connection prior to server bootstrap
-const startServer = async () => {
-  try {
-    await mongoose.connect(DB_URI);
-    console.log("-> MongoDB connectivity established");
+// -> Establishing database connection asynchronously for serverless compatibility
+mongoose.connect(DB_URI)
+  .then(() => console.log("-> MongoDB connectivity established"))
+  .catch((error) => console.error("MongoDB connection failed:", error));
 
-    app.listen(config.PORT, () => {
-      console.log(`Server running on http://localhost:${config.PORT}`);
-    });
-  } catch (error) {
-    console.error("MongoDB connection failed:", error);
-    process.exit(1);
-  }
-};
+// -> Local testing fallback (Vercel automatically handles the exported app)
+if (process.env.NODE_ENV !== "production") {
+  app.listen(config.PORT || 8001, () => {
+    console.log(`Server running on http://localhost:${config.PORT || 8001}`);
+  });
+}
 
-startServer();
+export default app;
