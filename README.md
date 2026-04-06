@@ -9,13 +9,6 @@
   [![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 </div>
 <br/>
-<h2 align="center">🌐 Live Demo</h2>
-<p align="center">
-  <a href="skill-craft-academy-buy-courses-onl-kappa.vercel.app">
-    <img src="https://img.shields.io/badge/Visit-SkillCraft-blue?style=for-the-badge" />
-  </a>
-</p>
-<br/>
 
 Welcome to **SkillCraft**, an enterprise-grade online course platform engineered with the MERN stack. Designed for maximum reliability and aesthetics, SkillCraft empowers users to seamlessly discover, purchase, and review curated upskilling courses while experiencing an immersive, glassmorphism-inspired interface.
 
