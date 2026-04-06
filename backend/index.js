@@ -22,7 +22,7 @@ app.use(express.json());
 
 const allowedOrigins = [
   config.FRONTEND_URL, // From environment variables
-  "https://course-selling-app-sage.vercel.app", // your current frontend
+  "https://skill-craft-academy-buy-courses-onl-kappa.vercel.app", // your current frontend
   "http://localhost:5173", // local dev
   "http://localhost:5174",
   "http://localhost:5175",
@@ -48,9 +48,9 @@ app.get("/ping", (req, res) => {
 app.use("/api/v1/course", courseRoute);
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/admin", adminRoute);
-app.use("/api/v1/order", orderRoute);  
+app.use("/api/v1/order", orderRoute);
 app.use("/api/v1/purchase", purchaseRoute);
- 
+
 
 // -> Establishing database connection prior to server bootstrap
 const startServer = async () => {
