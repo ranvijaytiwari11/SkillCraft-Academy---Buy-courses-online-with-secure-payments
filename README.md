@@ -10,8 +10,21 @@
 </div>
 
 <br />
-## 🌐 Live Demo
-👉 https://skill-craft-academy-buy-courses-onl-kappa.vercel.app
+<h1 align="center">SkillCraft 🚀</h1>
+
+<p align="center">
+  A modern MERN stack application
+</p>
+
+---
+
+<h2 align="center">🌐 Live Demo</h2>
+
+<p align="center">
+  <a href="skill-craft-academy-buy-courses-onl-kappa.vercel.app">
+    <img src="https://img.shields.io/badge/Visit-SkillCraft-blue?style=for-the-badge" />
+  </a>
+</p>
 <br/>
 
 Welcome to **SkillCraft**, an enterprise-grade online course platform engineered with the MERN stack. Designed for maximum reliability and aesthetics, SkillCraft empowers users to seamlessly discover, purchase, and review curated upskilling courses while experiencing an immersive, glassmorphism-inspired interface.
