@@ -8,18 +8,8 @@
   [![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
   [![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 </div>
-
-<br />
-<h1 align="center">SkillCraft 🚀</h1>
-
-<p align="center">
-  A modern MERN stack application
-</p>
-
----
-
+<br/>
 <h2 align="center">🌐 Live Demo</h2>
-
 <p align="center">
   <a href="skill-craft-academy-buy-courses-onl-kappa.vercel.app">
     <img src="https://img.shields.io/badge/Visit-SkillCraft-blue?style=for-the-badge" />
